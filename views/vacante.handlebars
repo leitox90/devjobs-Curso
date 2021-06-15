@@ -1,0 +1,76 @@
+<div class="contenido-superior vacante contenedor">
+    <div class="caja">
+        <p class="etiqueta">Empresa</p>
+        <p class="nombre">{{vacante.empresa}}</p>
+    </div>
+
+    <div class="caja">
+        <p class="etiqueta">Ubicación</p>
+        <p class="nombre">{{vacante.ubicacion}}</p>
+    </div>
+
+    <div class="caja">
+        <p class="etiqueta">Contrato</p>
+        <p class="nombre contrato">{{vacante.contrato}}</p>
+    </div>
+
+    <div class="caja">
+        <p class="etiqueta">Salario</p>
+        <p class="nombre">$ {{vacante.salario}}</p>
+    </div>    
+</div>
+
+<div class="vacante-contenedor contenedor">
+    <main class="contenido">
+        <h2>Descripción del Puesto</h2>
+        <div class="vacante-descripcion">
+            {{{vacante.descripcion}}} {{!--3 llaves para imprimir codigo HTML--}}
+        </div>    
+            {{!--Boton Editar--}}
+            <a href="/vacantes/editar/{{vacante.url}}" class="btn btn-azul editar-btn">Editar Vacante</a>    
+    </main>
+    
+    <aside class="sidebar">
+        <h2>Conocimientos Deseados</h2>
+        <ul class="skills">
+            {{#each vacante.skills}}   {{!--Como es una arreglo tengo que iterar con un each--}}
+                <li>{{this}}</li> {{!--La palabra this se va a referir a la posicion del arreglo que va iterando--}}
+            {{/each}}
+        </ul>
+    </aside>
+</div>
+
+<div class="contenedor datos-reclutador">
+    <div class="enviar-datos">
+        <h2>Contactar Reclutador</h2>
+        <p>Llena el siguien formulario, sube tu curriculum</p>
+        {{!!--Formulario de contacto --}}
+        <form action="/vacantes/{{vacante.url}}" method="POST" class="default-form" enctype="multipart/form-data"> {{!!--enctype para subir archivos--}}
+            {{!!--Con el ACTION de vacante/vacante.url vamos a obtener el ID de la vacante--}}
+            <div class="campo">
+                <label>Nombre</label>
+                <input type="text" name="nombre" placeholder="Nombre">
+            </div>
+            <div class="campo">
+                <label>E-Mail</label>
+                <input type="email" name="email" placeholder="E-Mail">
+            </div>
+            <div class="campo">
+                <label>Curriculum (PDF)</label>
+                <input type="file" name="cv">
+            </div>
+            <div class="campo">
+                <input type="submit" class="btn btn-verde" value="Enviar">
+            </div>
+        </form> 
+    </div>
+    <div class="info-reclutador">
+        <h2>Información Reclutador</h2>
+        {{#if vacante.autor.nombre}}
+            <p>{{vacante.autor.nombre}}</p> {{!--Utilizo .autor.nombre porque autor pasa como un objeto dentro del select en vancanteController.mostrarVacante--}}
+        {{/if}}
+        {{#if vacante.autor.imagen}}
+            <img src="/uploads/perfiles/{{vacante.autor.imagen}}">
+        {{/if}}
+    </div>
+</div>
